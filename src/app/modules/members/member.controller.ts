@@ -1,15 +1,34 @@
 import { Request, Response } from "express";
 import { memberService } from "./members.service";
 
+// const createMember = async (req: Request, res: Response) => {
+//   const memberData = req.body;
+//   const result = await memberService.createMember(memberData);
+//   res.status(201).send({
+//     success: true,
+//     status: 201,
+//     message: "Member created successfully",
+//     data: result,
+//   });
+// };
+
 const createMember = async (req: Request, res: Response) => {
   const memberData = req.body;
-  const result = await memberService.createMember(memberData);
-  res.status(201).send({
-    success: true,
-    status: 201,
-    message: "Member created successfully",
-    data: result,
-  });
+  try {
+    const result = await memberService.createMember(memberData);
+    res.status(201).send({
+      success: true,
+      status: 201,
+      message: "Member created successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).send({
+      success: false,
+      status: 400,
+      message: error.message || "Failed to create member",
+    });
+  }
 };
 
 const getAllMembers = async (req: Request, res: Response) => {
